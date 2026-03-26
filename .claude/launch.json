@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "C:\\Users\\samir\\AppData\\Local\\Temp\\nodeextract\\node-v20.11.1-win-x64\\npm.cmd",
+      "runtimeArgs": ["run", "dev"],
+      "port": 3000,
+      "cwd": "C:\\imgbb_before2026\\resume-site"
+    }
+  ]
+}
