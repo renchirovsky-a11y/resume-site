@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Samir Renchirovsky — SEO & Growth Professional",
     description:
-      "Linkbuilder & Team Lead, Influencer Marketing. 90,000+ link placements, $50K+ budgets managed.",
+      "Linkbuilder & Influencer Marketing Lead. 90,000+ link placements, $50K+ budgets managed.",
     type: "website",
   },
   robots: { index: true, follow: true },
