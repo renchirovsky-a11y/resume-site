@@ -14,7 +14,7 @@ export default function Hero() {
   const stats = [
     { value: "90K+", label: t("hero.links") },
     { value: "400+", label: t("hero.influencers") },
-    { value: "$100K", label: t("hero.budget") },
+    { value: "$50K", label: t("hero.budget") },
   ];
 
   return (
@@ -155,9 +155,6 @@ export default function Hero() {
                 <h2 className="mt-2 text-2xl font-semibold text-white">
                   Samir Renchirovsky
                 </h2>
-                <p className="mt-2 text-sm text-slate-300">
-                  {t("hero.seogrowth")}
-                </p>
               </div>
             </div>
           </div>

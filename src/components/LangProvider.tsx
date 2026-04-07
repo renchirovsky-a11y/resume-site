@@ -27,7 +27,7 @@ const translations: Record<Lang, Record<string, string>> = {
     // Hero
     "hero.firstname": "Samir",
     "hero.lastname": "Renchirovsky",
-    "hero.title": "Head of Link Building / Team Lead, Influencer Marketing",
+    "hero.title": "Linkbuilder / Team Lead, Influencer Marketing",
     "hero.subtitle":
       "Results-driven digital marketer with deep expertise in SEO link building and influencer marketing across competitive iGaming environments.",
     "hero.download": "Download CV",
@@ -45,7 +45,7 @@ const translations: Record<Lang, Record<string, string>> = {
     "about.title.1": "Professional ",
     "about.title.2": "Summary",
     "about.text":
-      "Experienced digital marketing professional specializing in SEO link building and influencer marketing within the competitive iGaming sector. Successfully managed large-scale link-building operations with over 90,000 crowd link placements and led influencer campaigns involving 1,000+ content creators and streamers. Proven track record of managing budgets exceeding $100,000, developing data-driven strategies, and building efficient operational workflows across multiple GEOs and NDA-protected projects.",
+      "Experienced digital marketing professional specializing in SEO link building and influencer marketing within the competitive iGaming sector. Successfully managed large-scale link-building operations with over 90,000 crowd link placements and led influencer campaigns involving 1,000+ content creators and streamers. Proven track record of managing budgets exceeding $50,000, developing data-driven strategies, and building efficient operational workflows across multiple GEOs and NDA-protected projects.",
     "about.igaming": "iGaming Industry Expert",
     "about.nda": "NDA-Protected Projects",
     "about.data": "Data-Driven Optimization",
@@ -59,7 +59,7 @@ const translations: Record<Lang, Record<string, string>> = {
     "exp.label": "Career",
     "exp.title.1": "Professional ",
     "exp.title.2": "Experience",
-    "exp.job1.title": "Head of Link Building",
+    "exp.job1.title": "Linkbuilder",
     "exp.job1.company": "NDA Project · iGaming",
     "exp.job1.dates": "Sep 2023 — Dec 2025",
     "exp.job1.location": "Kyiv",
@@ -72,12 +72,12 @@ const translations: Record<Lang, Record<string, string>> = {
     "exp.job1.b7": "Tested and implemented unconventional SEO approaches for competitive advantage",
     "exp.job1.b8": "Monitored rankings, DR/UR metrics, indexation, and link growth dynamics",
     "exp.job2.title": "Team Lead, Influencer Marketing",
-    "exp.job2.company": "NDA Project · iGaming",
-    "exp.job2.dates": "Jun 2025 — Nov 2025",
+    "exp.job2.company": "Apuesta360 · iGaming",
+    "exp.job2.dates": "Jun 2024 — Nov 2025",
     "exp.job2.location": "Cyprus",
     "exp.job2.b1": "Led influencer marketing operations and managed campaigns end-to-end",
     "exp.job2.b2": "Built structured outreach and collaboration processes for scalable partnerships",
-    "exp.job2.b3": "Managed budgets up to $100,000 with full accountability for ROI",
+    "exp.job2.b3": "Managed budgets up to $50,000 with full accountability for ROI",
     "exp.job2.b4": "Coordinated with 1,000+ influencers and streamers across multiple markets",
     "exp.job2.b5": "Oversaw communication, negotiations, content approvals, and campaign launches",
     "exp.job2.b6": "Tracked performance metrics and optimized campaign ROI continuously",
@@ -147,9 +147,9 @@ const translations: Record<Lang, Record<string, string>> = {
     // Hero
     "hero.firstname": "Самир",
     "hero.lastname": "Ренчировский",
-    "hero.title": "Head of Link Building / Team Lead Influencer Marketing",
+    "hero.title": "Linkbuilder / Team Lead Influencer Marketing",
     "hero.subtitle":
-      "Head of Link Building / Team Lead Influencer Marketing с опытом работы в iGaming на проектах под NDA. Ориентирован на результат, цифры и эффективность в конкурентной среде.",
+      "Linkbuilder / Team Lead Influencer Marketing с опытом работы в iGaming на проектах под NDA. Ориентирован на результат, цифры и эффективность в конкурентной среде.",
     "hero.download": "Скачать CV",
     "hero.telegram": "Telegram",
     "hero.keynumbers": "Ключевые цифры",
@@ -165,7 +165,7 @@ const translations: Record<Lang, Record<string, string>> = {
     "about.title.1": "",
     "about.title.2": "Резюме",
     "about.text":
-      "Сильный бэкграунд в SEO и линкбилдинге: более 90 000 размещённых ссылок, выстроенные процессы, работа с анкорами, индексом и качеством доноров. Есть опыт управления инфлюенсерами и бюджетами до $100 000, построения процессов и масштабирования направлений.",
+      "Сильный бэкграунд в SEO и линкбилдинге: более 90 000 размещённых ссылок, выстроенные процессы, работа с анкорами, индексом и качеством доноров. Есть опыт управления инфлюенсерами и бюджетами до $50 000, построения процессов и масштабирования направлений.",
     "about.igaming": "Эксперт в iGaming",
     "about.nda": "Проекты под NDA",
     "about.data": "Результат и цифры",
@@ -179,7 +179,7 @@ const translations: Record<Lang, Record<string, string>> = {
     "exp.label": "Опыт работы",
     "exp.title.1": "Опыт ",
     "exp.title.2": "работы",
-    "exp.job1.title": "Head of Link Building (iGaming)",
+    "exp.job1.title": "Linkbuilder (iGaming)",
     "exp.job1.company": "NDA",
     "exp.job1.dates": "Сентябрь 2023 — Декабрь 2025",
     "exp.job1.location": "Киев",
@@ -192,12 +192,12 @@ const translations: Record<Lang, Record<string, string>> = {
     "exp.job1.b7": "Тестировал нестандартные SEO-подходы и улучшал результаты",
     "exp.job1.b8": "Отслеживал позиции, DR/UR, индекс и динамику ссылок",
     "exp.job2.title": "Team Lead Influencer Marketing (iGaming)",
-    "exp.job2.company": "NDA",
-    "exp.job2.dates": "Июнь 2025 — Ноябрь 2025",
+    "exp.job2.company": "Apuesta360",
+    "exp.job2.dates": "Июнь 2024 — Ноябрь 2025",
     "exp.job2.location": "Кипр",
     "exp.job2.b1": "Управлял направлением influencer marketing",
     "exp.job2.b2": "Построил системный процесс поиска, коммуникации и закупки интеграций",
-    "exp.job2.b3": "Работал с бюджетами до $100 000",
+    "exp.job2.b3": "Работал с бюджетами до $50 000",
     "exp.job2.b4": "Сотрудничал с 1000+ инфлюенсерами и стримерами",
     "exp.job2.b5": "Вёл переговоры, контролировал размещения и запуск кампаний",
     "exp.job2.b6": "Отслеживал результаты и оптимизировал эффективность",
@@ -269,7 +269,7 @@ export function useLang() {
 }
 
 export default function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useState<Lang>("ru");
 
   const t = (key: string) => translations[lang][key] ?? key;
 

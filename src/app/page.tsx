@@ -44,7 +44,7 @@ export default function Home() {
             <Experience />
             <Skills />
             <Languages />
-            <Testimonials />
+            <div style={{ display: "none" }}><Testimonials /></div>
             <Contact />
           </m.div>
         </AnimatePresence>

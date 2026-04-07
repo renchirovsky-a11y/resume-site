@@ -10,7 +10,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 const metricDefs = [
   { icon: Link2, value: 90000, suffix: "+", labelKey: "metrics.crowd", tag: "scale" },
   { icon: Users, value: 400, suffix: "+", labelKey: "metrics.influencers", tag: "performance" },
-  { icon: DollarSign, value: 100000, prefix: "$", suffix: "", labelKey: "metrics.budget", tag: "systems" },
+  { icon: DollarSign, value: 50000, prefix: "$", suffix: "", labelKey: "metrics.budget", tag: "systems" },
   { icon: Target, value: 2, suffix: "", labelKey: "metrics.domains", tag: "leadership" },
 ];
 
