@@ -1,97 +1,123 @@
 "use client";
 
 import { m } from "framer-motion";
-import { ArrowDownRight, Send, FileDown, Sparkles, ImageIcon } from "lucide-react";
+import {
+  Activity,
+  ArrowDownRight,
+  ExternalLink,
+  FileDown,
+  Link2,
+  Search,
+  Send,
+  Star,
+  TrendingUp,
+  Users,
+  Wallet,
+} from "lucide-react";
 import { useLang } from "./LangProvider";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const badges = ["iGaming", "SEO", "Growth", "Leadership"];
+const badgeDefs = [
+  { label: "iGaming", icon: Activity },
+  { label: "SEO", icon: Search },
+  { label: "Growth", icon: TrendingUp },
+  { label: "Leadership", icon: Users },
+];
 
 export default function Hero() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
 
   const stats = [
-    { value: "90K+", label: t("hero.links") },
-    { value: "400+", label: t("hero.influencers") },
-    { value: "$50K", label: t("hero.budget") },
+    { value: "90K+", label: t("hero.links"), icon: Link2 },
+    { value: "400+", label: t("hero.influencers"), icon: Users },
+    { value: "$50K", label: t("hero.budget"), icon: Wallet },
+  ];
+
+  const campaigns = [
+    {
+      name: "Apuesta360",
+      type: "Influencer Campaign",
+      region: lang === "ru" ? "Кипр, LatAm" : "Cyprus, LatAm",
+      period: lang === "ru" ? "Июн 2024 — Ноя 2025" : "Jun 2024 — Nov 2025",
+    },
+    {
+      name: "NDA Project",
+      type: "Linkbuilding",
+      region: "EU, CIS, LatAm, Asia",
+      period: lang === "ru" ? "Сен 2023 — Дек 2025" : "Sep 2023 — Dec 2025",
+    },
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 sm:px-6 pt-20 sm:pt-24 pb-12 sm:pb-16 overflow-hidden">
-      <div className="absolute top-[-10%] left-[-5%] w-[600px] h-[600px] halo-violet floating-orb pointer-events-none opacity-60" />
-      <div className="absolute top-[10%] right-[-8%] w-[500px] h-[500px] halo-cyan floating-orb floating-orb-delayed pointer-events-none opacity-50" />
-      <div className="absolute bottom-[-5%] left-[30%] w-[400px] h-[400px] halo-warm floating-orb floating-orb-slower pointer-events-none opacity-40" />
-
-      <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12">
-        <div className="max-w-2xl">
+    <section className="relative flex min-h-screen items-center px-4 pb-16 pt-32 sm:px-6 lg:pt-28">
+      <div className="mx-auto grid w-full max-w-[1280px] min-w-0 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.82fr)] xl:gap-14">
+        <div className="min-w-0">
           <m.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease }}
-            className="flex flex-wrap gap-2 mb-6"
+            transition={{ duration: 0.55, ease }}
+            className="mb-8 flex flex-wrap gap-2.5"
           >
-            {badges.map((badge) => (
-              <span
-                key={badge}
-                className="px-3 py-1 rounded-full text-[11px] font-semibold tracking-[0.3em] uppercase border border-white/10 bg-white/[0.04] text-slate-300"
-              >
-                {badge}
+            {badgeDefs.map((badge) => (
+              <span key={badge.label} className="chip px-3.5">
+                <badge.icon size={14} className="text-teal" />
+                {badge.label}
               </span>
             ))}
           </m.div>
 
           <m.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] mb-4"
+            transition={{ duration: 0.72, delay: 0.08, ease }}
+            className="max-w-full text-[clamp(2.35rem,6.8vw,5.8rem)] font-black leading-[0.96] text-ivory"
           >
-            <span className="text-gradient-animated">{t("hero.firstname")}</span>
+            <span>{t("hero.firstname")}</span>
             <br />
-            <span className="text-white">{t("hero.lastname")}</span>
+            <span className="text-gold">{t("hero.lastname")}</span>
           </m.h1>
 
           <m.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.25, ease }}
-            className="text-lg sm:text-xl text-slate-300 font-medium mb-2"
+            transition={{ duration: 0.62, delay: 0.18, ease }}
+            className="mt-8 max-w-full text-sm font-black uppercase tracking-[0.12em] text-muted sm:text-base sm:tracking-[0.18em]"
           >
             {t("hero.title")}
           </m.p>
 
           <m.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35, ease }}
-            className="text-sm sm:text-base text-slate-400 leading-relaxed mb-8 max-w-lg"
+            transition={{ duration: 0.62, delay: 0.27, ease }}
+            className="mt-5 max-w-[620px] text-base leading-8 text-muted sm:text-lg"
           >
             {t("hero.subtitle")}
           </m.p>
 
           <m.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.45, ease }}
-            className="flex flex-wrap gap-3 mb-8"
+            transition={{ duration: 0.62, delay: 0.36, ease }}
+            className="mt-8 flex flex-wrap gap-4"
           >
             <a
               href="https://drive.google.com/file/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ/view"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-semibold bg-gradient-to-r from-[#a36cff]/30 to-[#41caff]/30 border border-white/15 shadow-[0_8px_32px_rgba(163,108,255,0.2)] hover:shadow-[0_8px_40px_rgba(163,108,255,0.35)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300"
+              className="primary-action"
             >
-              <FileDown size={16} />
+              <FileDown size={18} />
               {t("hero.download")}
             </a>
             <a
               href="https://t.me/cassedygarcia"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full text-sm font-semibold bg-white/[0.04] border border-white/10 hover:bg-white/[0.08] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300"
+              className="secondary-action"
             >
-              <Send size={16} />
+              <Send size={18} className="text-teal" />
               {t("hero.telegram")}
             </a>
           </m.div>
@@ -99,78 +125,186 @@ export default function Hero() {
           <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55, ease }}
+            transition={{ duration: 0.7, delay: 0.48, ease }}
+            className="matte-panel mt-10 max-w-[680px]"
           >
-            <div className="glass-card p-5 inline-block">
-              <div className="flex items-center gap-2 mb-4">
-                <Sparkles size={14} className="text-[#a36cff]" />
-                <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-slate-400">
-                  {t("hero.keynumbers")}
-                </span>
-              </div>
-              <div className="flex gap-5 sm:gap-8">
-                {stats.map((stat, i) => (
-                  <m.div
-                    key={stat.label}
-                    initial={{ opacity: 0, y: 10 }}
+            <div className="panel-inner grid metric-divider md:grid-cols-3">
+              {stats.map((stat, index) => (
+                <div key={stat.label} className="p-6 sm:p-7">
+                  <stat.icon size={22} className="mb-5 text-teal" />
+                  <m.span
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.65 + i * 0.1, ease }}
-                    className="text-center"
+                    transition={{ duration: 0.45, delay: 0.6 + index * 0.08 }}
+                    className="block text-4xl font-black text-ivory sm:text-5xl"
                   >
-                    <span className="text-xl sm:text-2xl font-bold text-gradient-accent block">
-                      {stat.value}
-                    </span>
-                    <span className="text-[11px] text-slate-500 mt-1 block">
-                      {stat.label}
-                    </span>
-                  </m.div>
-                ))}
-              </div>
+                    {stat.value}
+                  </m.span>
+                  <span className="mt-2 block text-sm text-muted">{stat.label}</span>
+                </div>
+              ))}
             </div>
           </m.div>
         </div>
 
-        <m.div
-          initial={{ opacity: 0, x: 40, scale: 0.95 }}
+        <m.aside
+          initial={{ opacity: 0, x: 36, scale: 0.98 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
-          transition={{ duration: 0.9, delay: 0.3, ease }}
-          className="hidden lg:block shrink-0"
+          transition={{ duration: 0.82, delay: 0.22, ease }}
+          className="matte-panel min-w-0 overflow-hidden lg:mt-16"
         >
-          <div className="relative overflow-hidden rounded-[40px] border border-white/10 w-[420px] shadow-[0_30px_90px_rgba(5,8,20,0.45)]">
-            <div className="relative aspect-[3/4] bg-gradient-to-br from-[#0f1118] to-[#0b0e14]">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <ImageIcon size={56} className="text-white/10 mx-auto mb-3" />
-                  <p className="text-xs text-white/20 tracking-wider uppercase">Photo</p>
-                </div>
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#07080d] via-[#07080d]/20 to-white/5" />
-              <div className="absolute left-4 top-4 rounded-full border border-white/15 bg-[#0b0f15]/55 px-3 py-2 text-xs font-medium text-white backdrop-blur-xl">
+          <div className="panel-inner">
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[color:var(--line)] p-5 sm:p-6">
+              <div className="inline-flex items-center gap-2 rounded-[8px] border border-[color:var(--line)] bg-white/[0.035] px-3 py-2 text-xs font-black uppercase tracking-[0.12em]">
+                <Star size={15} className="text-[color:var(--amber)]" />
                 {t("hero.featured")}
               </div>
-              <div className="absolute inset-x-0 bottom-0 p-6">
-                <p className="text-xs uppercase tracking-[0.32em] text-white/50">
-                  {t("hero.portfolio")}
+              <div className="text-right">
+                <p className="inline-flex items-center gap-2 text-sm font-bold text-ivory">
+                  <span className="h-2 w-2 rounded-full bg-[color:var(--teal)] shadow-[0_0_18px_var(--teal)]" />
+                  {lang === "ru" ? "Открыт к предложениям" : "Open to offers"}
                 </p>
-                <h2 className="mt-2 text-2xl font-semibold text-white">
-                  Samir Renchirovsky
+                <p className="mt-1 text-sm text-subtle">Full-time / Remote</p>
+              </div>
+            </div>
+
+            <div className="grid border-b border-[color:var(--line)] md:grid-cols-[0.9fr_1.1fr]">
+              <div className="grid min-h-[250px] place-items-center border-b border-[color:var(--line)] p-6 md:border-b-0 md:border-r">
+                <div className="relative grid aspect-square w-[min(260px,70vw)] place-items-center rounded-full border border-[color:var(--amber)] bg-[radial-gradient(circle_at_50%_38%,rgba(216,168,95,0.12),transparent_54%),rgba(255,255,255,0.02)]">
+                  <div className="absolute inset-6 rounded-full border border-[color:var(--line)]" />
+                  <div className="absolute inset-10 rounded-full border border-[color:var(--line)] opacity-60" />
+                  <div className="text-center">
+                    <p className="font-serif text-[clamp(4rem,8vw,6.5rem)] leading-none text-ivory">
+                      SR
+                    </p>
+                    <p className="mt-3 text-xs font-black uppercase tracking-[0.1em] text-ivory">
+                      Samir Renchirovsky
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6 sm:p-7">
+                <p className="eyebrow">{t("hero.portfolio")}</p>
+                <h2 className="mt-6 text-[1.7rem] font-black leading-tight text-ivory">
+                  Samir
+                  <br />
+                  <span className="break-words">Renchirovsky</span>
                 </h2>
+                <p className="mt-4 text-base font-bold text-[color:var(--teal)]">
+                  {t("hero.seogrowth")}
+                </p>
+                <a
+                  href="#experience"
+                  className="mt-8 inline-flex min-h-11 items-center gap-3 rounded-[8px] border border-[color:var(--teal)] bg-[color:var(--teal-soft)] px-4 text-sm font-bold transition-transform duration-200 hover:-translate-y-0.5"
+                >
+                  {lang === "ru" ? "См. портфолио" : "View portfolio"}
+                  <ExternalLink size={16} />
+                </a>
+              </div>
+            </div>
+
+            <div className="border-b border-[color:var(--line)] p-6 sm:p-7">
+              <p className="eyebrow">
+                {lang === "ru" ? "Последние кампании" : "Recent campaigns"}
+              </p>
+              <div className="mt-5 space-y-5">
+                {campaigns.map((campaign, index) => (
+                  <div key={campaign.name} className="grid grid-cols-[18px_1fr] gap-4">
+                    <div className="relative flex justify-center">
+                      <span className="mt-1 h-3 w-3 rounded-full bg-[color:var(--teal)] shadow-[0_0_18px_rgba(74,215,200,0.65)]" />
+                      {index < campaigns.length - 1 && (
+                        <span className="absolute bottom-[-24px] top-5 w-px bg-[color:var(--line)]" />
+                      )}
+                    </div>
+                    <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+                      <div>
+                        <p className="font-bold text-ivory">
+                          {campaign.name}
+                          <span className="mx-2 text-subtle">/</span>
+                          <span className="font-medium text-muted">{campaign.type}</span>
+                        </p>
+                        <p className="mt-1 text-sm text-subtle">{campaign.region}</p>
+                      </div>
+                      <p className="text-sm text-subtle sm:text-right">{campaign.period}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="grid gap-6 p-6 sm:grid-cols-[1fr_150px] sm:p-7">
+              <div>
+                <p className="eyebrow">
+                  {lang === "ru"
+                    ? "Динамика ссылочного профиля"
+                    : "Link profile momentum"}
+                </p>
+                <svg
+                  viewBox="0 0 360 144"
+                  className="mt-5 h-36 w-full overflow-visible"
+                  role="img"
+                  aria-label="Link profile growth chart"
+                >
+                  <defs>
+                    <linearGradient id="spark-fill" x1="0" x2="0" y1="0" y2="1">
+                      <stop offset="0%" stopColor="var(--teal)" stopOpacity="0.3" />
+                      <stop offset="100%" stopColor="var(--teal)" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  {[24, 72, 120].map((y) => (
+                    <line
+                      key={y}
+                      x1="0"
+                      x2="350"
+                      y1={y}
+                      y2={y}
+                      stroke="var(--line)"
+                      strokeDasharray="4 6"
+                    />
+                  ))}
+                  <path
+                    d="M0 128 L22 122 L42 114 L63 116 L84 104 L104 98 L126 91 L146 92 L168 79 L188 76 L208 66 L229 70 L248 54 L270 58 L292 42 L316 37 L338 24"
+                    fill="none"
+                    stroke="var(--teal)"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="sparkline-path"
+                  />
+                  <path
+                    d="M0 128 L22 122 L42 114 L63 116 L84 104 L104 98 L126 91 L146 92 L168 79 L188 76 L208 66 L229 70 L248 54 L270 58 L292 42 L316 37 L338 24 L338 144 L0 144 Z"
+                    fill="url(#spark-fill)"
+                  />
+                  <circle cx="338" cy="24" r="6" fill="var(--teal)" className="spark-dot" />
+                </svg>
+              </div>
+
+              <div className="flex flex-col justify-end">
+                <p className="text-4xl font-black text-ivory">90K+</p>
+                <p className="mt-2 text-sm text-muted">{t("hero.links")}</p>
+                <p className="mt-5 inline-flex w-fit items-center rounded-full bg-[color:var(--teal-soft)] px-3 py-1 text-sm font-black text-[color:var(--teal)]">
+                  +32%
+                </p>
+                <p className="mt-2 text-sm text-subtle">
+                  {lang === "ru" ? "за 12 месяцев" : "over 12 months"}
+                </p>
               </div>
             </div>
           </div>
-        </m.div>
+        </m.aside>
       </div>
 
       <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        transition={{ delay: 1, duration: 0.5 }}
+        className="pointer-events-none absolute bottom-7 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-subtle md:flex"
       >
-        <span className="text-[10px] tracking-[0.3em] uppercase text-slate-500">
+        <span className="text-[10px] font-black uppercase tracking-[0.26em]">
           {t("hero.scroll")}
         </span>
-        <ArrowDownRight size={16} className="text-slate-500 scroll-indicator" />
+        <ArrowDownRight size={16} />
       </m.div>
     </section>
   );

@@ -1,94 +1,116 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { m, useInView } from "framer-motion";
-import { Link2, Users, DollarSign, Target } from "lucide-react";
+import { DollarSign, Link2, Target, Users } from "lucide-react";
 import { useLang } from "./LangProvider";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 const metricDefs = [
   { icon: Link2, value: 90000, suffix: "+", labelKey: "metrics.crowd", tag: "scale" },
-  { icon: Users, value: 400, suffix: "+", labelKey: "metrics.influencers", tag: "performance" },
-  { icon: DollarSign, value: 50000, prefix: "$", suffix: "", labelKey: "metrics.budget", tag: "systems" },
-  { icon: Target, value: 2, suffix: "", labelKey: "metrics.domains", tag: "leadership" },
+  { icon: Users, value: 400, suffix: "+", labelKey: "metrics.influencers", tag: "network" },
+  { icon: DollarSign, value: 50000, prefix: "$", labelKey: "metrics.budget", tag: "budget" },
+  { icon: Target, value: 2, labelKey: "metrics.domains", tag: "focus" },
 ];
+
+function formatCount(value: number) {
+  if (value >= 1000) return `${Math.floor(value / 1000)}K`;
+  return value.toString();
+}
 
 function AnimatedCounter({
   value,
   prefix = "",
   suffix = "",
-  isInView,
+  active,
 }: {
   value: number;
   prefix?: string;
   suffix?: string;
-  isInView: boolean;
+  active: boolean;
 }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!isInView) return;
-    let start = 0;
-    const duration = 2000;
-    const increment = value / (duration / 16);
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= value) {
-        setCount(value);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [isInView, value]);
+    if (!active) return;
 
-  const formatted =
-    count >= 1000 ? `${Math.floor(count / 1000).toLocaleString()}K` : count.toString();
+    let frame = 0;
+    let start: number | null = null;
+    const duration = 1200;
+
+    const tick = (time: number) => {
+      if (start === null) start = time;
+      const progress = Math.min((time - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.round(value * eased));
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [active, value]);
 
   return (
-    <span className="text-4xl sm:text-5xl font-bold text-gradient-accent">
+    <span className="text-4xl font-black text-ivory sm:text-5xl">
       {prefix}
-      {formatted}
+      {formatCount(count)}
       {suffix}
     </span>
   );
 }
 
 export default function Metrics() {
-  const { t } = useLang();
+  const { lang, t } = useLang();
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-120px" });
 
   return (
-    <section className="relative py-12 sm:py-16 px-4 sm:px-6" ref={ref}>
-      <div className="max-w-5xl mx-auto">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {metricDefs.map((metric, i) => (
+    <section className="section-band pt-6" ref={ref}>
+      <div className="mx-auto max-w-[1220px]">
+        <div className="mb-8 flex flex-col justify-between gap-4 border-b border-[color:var(--line)] pb-6 sm:flex-row sm:items-end">
+          <div>
+            <p className="eyebrow">{lang === "ru" ? "Сводка" : "Scoreboard"}</p>
+            <h2 className="mt-3 text-3xl font-black text-ivory sm:text-4xl">
+              {lang === "ru" ? "Операционный масштаб" : "Operational scale"}
+            </h2>
+          </div>
+          <p className="max-w-[460px] text-sm leading-7 text-muted sm:text-right">
+            {lang === "ru"
+              ? "Короткая сводка по объему, партнерам, бюджетам и ключевым направлениям роста."
+              : "A compact view of volume, partners, budgets, and core growth domains."}
+          </p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {metricDefs.map((metric, index) => (
             <m.div
               key={metric.labelKey}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 22 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.1, ease }}
-              className="glass-card p-6 group cursor-default hover:-translate-y-1 hover:scale-[1.02] transition-transform duration-300"
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.54, delay: index * 0.07, ease }}
+              className="matte-panel p-6 transition-transform duration-200 hover:-translate-y-1"
             >
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center justify-center w-11 h-11 rounded-xl bg-gradient-to-br from-[#a36cff]/20 to-[#41caff]/20 border border-white/10 group-hover:border-white/20 transition-colors">
-                  <metric.icon size={20} className="text-[#7cb3ff]" />
+              <div className="panel-inner">
+                <div className="mb-8 flex items-center justify-between">
+                  <div className="grid h-11 w-11 place-items-center rounded-[8px] border border-[color:var(--line)] bg-white/[0.025] text-[color:var(--teal)]">
+                    <metric.icon size={20} />
+                  </div>
+                  <span className="text-xs font-black uppercase tracking-[0.16em] text-subtle">
+                    {metric.tag}
+                  </span>
                 </div>
-                <span className="text-[10px] font-semibold tracking-[0.3em] uppercase text-slate-600">
-                  {metric.tag}
-                </span>
+                <AnimatedCounter
+                  value={metric.value}
+                  prefix={metric.prefix}
+                  suffix={metric.suffix}
+                  active={isInView}
+                />
+                <p className="mt-3 min-h-10 text-sm leading-5 text-muted">
+                  {t(metric.labelKey)}
+                </p>
               </div>
-              <AnimatedCounter
-                value={metric.value}
-                prefix={metric.prefix}
-                suffix={metric.suffix}
-                isInView={isInView}
-              />
-              <p className="text-sm text-slate-400 mt-2">{t(metric.labelKey)}</p>
             </m.div>
           ))}
         </div>

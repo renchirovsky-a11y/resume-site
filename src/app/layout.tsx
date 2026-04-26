@@ -22,13 +22,13 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#06070b" },
-    { media: "(prefers-color-scheme: light)", color: "#f9f8fc" },
+    { media: "(prefers-color-scheme: dark)", color: "#080a0d" },
+    { media: "(prefers-color-scheme: light)", color: "#f4efe5" },
   ],
 };
 
 export const metadata: Metadata = {
-  title: "Samir Renchirovsky — Head of Link Building & Influencer Marketing",
+  title: "Samir Renchirovsky - Head of Link Building & Influencer Marketing",
   description:
     "Results-driven digital marketer with deep expertise in SEO link building and influencer marketing across competitive iGaming environments.",
   keywords: [
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     "Growth Strategy",
   ],
   openGraph: {
-    title: "Samir Renchirovsky — SEO & Growth Professional",
+    title: "Samir Renchirovsky - SEO & Growth Professional",
     description:
       "Linkbuilder & Influencer Marketing Lead. 90,000+ link placements, $50K+ budgets managed.",
     type: "website",

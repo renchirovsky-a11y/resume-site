@@ -15,9 +15,6 @@ const Metrics = dynamic(() => import("@/components/Metrics"));
 const Experience = dynamic(() => import("@/components/Experience"));
 const Skills = dynamic(() => import("@/components/Skills"));
 const Languages = dynamic(() => import("@/components/Languages"));
-const Testimonials = dynamic(() => import("@/components/Testimonials"), {
-  ssr: false,
-});
 const Contact = dynamic(() => import("@/components/Contact"));
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -27,7 +24,7 @@ export default function Home() {
 
   return (
     <LazyMotion features={domAnimation} strict>
-      <main className="relative">
+      <main className="app-layer relative">
         <VideoBackground />
         <Navbar />
         <AnimatePresence mode="wait">
@@ -44,7 +41,6 @@ export default function Home() {
             <Experience />
             <Skills />
             <Languages />
-            <div style={{ display: "none" }}><Testimonials /></div>
             <Contact />
           </m.div>
         </AnimatePresence>

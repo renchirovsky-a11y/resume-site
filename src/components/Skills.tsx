@@ -1,7 +1,7 @@
 "use client";
 
 import { m } from "framer-motion";
-import { Wrench, Brain, Settings } from "lucide-react";
+import { Brain, Settings, Wrench } from "lucide-react";
 import { useLang } from "./LangProvider";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -10,20 +10,47 @@ const categories = [
   {
     icon: Wrench,
     titleKey: "skills.technical",
-    accent: "from-[#a36cff]/20 to-[#7c6cff]/20",
-    skillKeys: ["skill.t1", "skill.t2", "skill.t3", "skill.t4", "skill.t5", "skill.t6", "skill.t7", "skill.t8", "skill.t9", "skill.t10"],
+    marker: "Technical",
+    skillKeys: [
+      "skill.t1",
+      "skill.t2",
+      "skill.t3",
+      "skill.t4",
+      "skill.t5",
+      "skill.t6",
+      "skill.t7",
+      "skill.t8",
+      "skill.t9",
+      "skill.t10",
+    ],
   },
   {
     icon: Brain,
     titleKey: "skills.soft",
-    accent: "from-[#41caff]/20 to-[#5abdfd]/20",
-    skillKeys: ["skill.s1", "skill.s2", "skill.s3", "skill.s4", "skill.s5", "skill.s6", "skill.s7", "skill.s8"],
+    marker: "People",
+    skillKeys: [
+      "skill.s1",
+      "skill.s2",
+      "skill.s3",
+      "skill.s4",
+      "skill.s5",
+      "skill.s6",
+      "skill.s7",
+      "skill.s8",
+    ],
   },
   {
     icon: Settings,
     titleKey: "skills.tools",
-    accent: "from-[#ff9075]/20 to-[#ffb4df]/20",
-    skillKeys: ["skill.tool1", "skill.tool2", "skill.tool3", "skill.tool4", "skill.tool5", "skill.tool6"],
+    marker: "Stack",
+    skillKeys: [
+      "skill.tool1",
+      "skill.tool2",
+      "skill.tool3",
+      "skill.tool4",
+      "skill.tool5",
+      "skill.tool6",
+    ],
   },
 ];
 
@@ -31,56 +58,64 @@ export default function Skills() {
   const { t } = useLang();
 
   return (
-    <section id="skills" className="relative py-16 sm:py-24 px-4 sm:px-6">
-      <div className="max-w-5xl mx-auto">
+    <section id="skills" className="section-band section-rule">
+      <div className="mx-auto max-w-[1220px]">
         <m.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 26 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease }}
+          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 0.62, ease }}
+          className="mb-12"
         >
-          <span className="text-[11px] font-semibold tracking-[0.3em] uppercase text-slate-500 mb-3 block">
-            {t("skills.label")}
-          </span>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-12">
+          <p className="eyebrow">{t("skills.label")}</p>
+          <h2 className="mt-3 text-4xl font-black leading-tight text-ivory sm:text-5xl">
             {t("skills.title.1")}
-            <span className="text-gradient-hero">{t("skills.title.2")}</span>
+            <span className="text-gold">{t("skills.title.2")}</span>
           </h2>
         </m.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {categories.map((cat, i) => {
-            const skills = cat.skillKeys
+        <div className="grid gap-5 lg:grid-cols-3">
+          {categories.map((category, index) => {
+            const skills = category.skillKeys
               .map((key) => t(key))
-              .filter((val) => val.length > 0);
+              .filter((value) => value.length > 0);
 
             return (
-              <m.div
-                key={cat.titleKey}
-                initial={{ opacity: 0, y: 30 }}
+              <m.article
+                key={category.titleKey}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ duration: 0.6, delay: i * 0.12, ease }}
-                className="glass-card p-6 sm:p-7 hover:-translate-y-0.5 transition-transform duration-300"
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.56, delay: index * 0.08, ease }}
+                className="matte-panel p-6 lg:p-7"
               >
-                <div className="flex items-center gap-3 mb-5">
-                  <div className={`flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br ${cat.accent} border border-white/10`}>
-                    <cat.icon size={18} className="text-slate-300" />
-                  </div>
-                  <h3 className="text-lg font-semibold">{t(cat.titleKey)}</h3>
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {skills.map((skill, j) => (
-                    <span
-                      key={`${skill}-${j}`}
-                      className="px-3 py-1.5 rounded-full text-[13px] text-slate-300 bg-white/[0.04] border border-white/[0.08] cursor-default hover:scale-105 hover:bg-white/[0.08] transition-all duration-200"
-                    >
-                      {skill}
+                <div className="panel-inner">
+                  <div className="mb-8 flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="grid h-12 w-12 place-items-center rounded-[8px] border border-[color:var(--line)] bg-[color:var(--teal-soft)] text-[color:var(--teal)]">
+                        <category.icon size={21} />
+                      </div>
+                      <h3 className="text-xl font-black text-ivory">
+                        {t(category.titleKey)}
+                      </h3>
+                    </div>
+                    <span className="text-xs font-black uppercase tracking-[0.16em] text-subtle">
+                      {category.marker}
                     </span>
-                  ))}
+                  </div>
+
+                  <div className="flex flex-wrap gap-2">
+                    {skills.map((skill, skillIndex) => (
+                      <span
+                        key={`${skill}-${skillIndex}`}
+                        className="rounded-full border border-[color:var(--line)] bg-white/[0.025] px-3 py-2 text-sm font-semibold text-muted transition-colors duration-200 hover:border-[color:var(--teal)] hover:text-ivory"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </m.div>
+              </m.article>
             );
           })}
         </div>
