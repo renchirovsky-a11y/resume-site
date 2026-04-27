@@ -1,16 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { m, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon } from "lucide-react";
-import { useTheme } from "./ThemeProvider";
+import { useEffect, useState } from "react";
+import { AnimatePresence, m, useScroll, useSpring } from "framer-motion";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { useLang } from "./LangProvider";
+import { useTheme } from "./ThemeProvider";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
 export default function Navbar() {
   const { lang, setLang, t } = useLang();
   const { theme, toggleTheme } = useTheme();
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 140,
+    damping: 28,
+    mass: 0.35,
+  });
   const [active, setActive] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -24,7 +30,8 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 28);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -37,53 +44,54 @@ export default function Navbar() {
           if (entry.isIntersecting) setActive(`#${entry.target.id}`);
         });
       },
-      { rootMargin: "-40% 0px -55% 0px" }
+      { rootMargin: "-36% 0px -58% 0px" }
     );
+
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
+
     return () => observer.disconnect();
   }, []);
 
   return (
     <>
       <m.nav
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease }}
-        className={`fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1 px-2 py-1.5 sm:py-2 rounded-full border transition-all duration-500 max-w-[calc(100vw-2rem)] ${
+        initial={{ opacity: 0, y: -24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.62, ease }}
+        className={`fixed left-1/2 top-4 z-50 flex w-[min(930px,calc(100vw-24px))] -translate-x-1/2 items-center gap-2 rounded-full border px-3 py-2 backdrop-blur-xl transition-[background-color,border-color,box-shadow] duration-300 ${
           scrolled
-            ? "border-white/10 bg-[#0c1017]/80 backdrop-blur-2xl shadow-[0_8px_40px_rgba(0,0,0,0.5)]"
-            : "border-white/5 bg-[#0c1017]/40 backdrop-blur-lg"
+            ? "border-[color:var(--line-strong)] bg-[color:var(--panel-strong)] shadow-[0_16px_42px_rgba(0,0,0,0.24)]"
+            : "border-[color:var(--line)] bg-[rgba(12,16,20,0.66)]"
         }`}
+        aria-label="Primary navigation"
       >
-        {/* Monogram */}
         <a
           href="#"
-          className="flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-[#a36cff]/30 to-[#41caff]/30 border border-white/10 text-sm font-bold mr-1 shrink-0"
-          style={{ fontFamily: "var(--font-sora)" }}
+          className="nav-mark grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[color:var(--teal)] bg-[rgba(74,215,200,0.06)] text-[15px] font-bold text-ivory shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]"
+          aria-label="Samir Renchirovsky home"
         >
           SR
         </a>
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-0.5">
+        <div className="hidden flex-1 items-center justify-center gap-1 md:flex">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className={`relative px-4 py-2 text-[13px] font-medium tracking-wide rounded-full transition-colors duration-300 ${
+              className={`relative rounded-full px-4 py-2 text-[13px] font-bold transition-colors duration-200 ${
                 active === link.href
-                  ? ""
-                  : "text-slate-400 hover:text-white"
+                  ? "text-ivory"
+                  : "text-muted hover:text-ivory"
               }`}
             >
               {active === link.href && (
                 <m.span
                   layoutId="nav-active"
-                  className="absolute inset-0 rounded-full bg-white/[0.07] border border-white/10"
-                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                  className="absolute inset-0 rounded-full border border-[color:var(--line)] bg-white/[0.055]"
+                  transition={{ type: "spring", stiffness: 420, damping: 34 }}
                 />
               )}
               <span className="relative z-10">{link.label}</span>
@@ -91,120 +99,120 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Language switcher */}
-        <div className="hidden md:flex items-center ml-1 p-0.5 rounded-full bg-white/[0.04] border border-white/[0.08]">
-          {(["en", "ru"] as const).map((l) => (
-            <m.button
-              key={l}
-              onClick={() => setLang(l)}
-              whileTap={{ scale: 0.92 }}
-              className={`relative px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase transition-colors duration-200 ${
-                lang === l ? "" : "text-slate-500 hover:text-slate-300"
-              }`}
-            >
-              {lang === l && (
-                <m.span
-                  layoutId="lang-active"
-                  className="absolute inset-0 rounded-full bg-gradient-to-r from-[#a36cff]/25 to-[#41caff]/25 border border-white/15"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
-              <span className="relative z-10">{l.toUpperCase()}</span>
-            </m.button>
-          ))}
+        <div className="ml-auto hidden items-center gap-2 md:flex">
+          <div className="flex rounded-full border border-[color:var(--line)] bg-white/[0.025] p-1">
+            {(["en", "ru"] as const).map((l) => (
+              <button
+                key={l}
+                type="button"
+                onClick={() => setLang(l)}
+                className={`relative h-9 rounded-full px-3 text-xs font-bold uppercase transition-colors duration-200 ${
+                  lang === l ? "text-ivory" : "text-subtle hover:text-muted"
+                }`}
+                aria-pressed={lang === l}
+              >
+                {lang === l && (
+                  <m.span
+                    layoutId="lang-active"
+                    className="absolute inset-0 rounded-full border border-[color:var(--teal)] bg-[color:var(--teal-soft)]"
+                    transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                  />
+                )}
+                <span className="relative z-10">{l.toUpperCase()}</span>
+              </button>
+            ))}
+          </div>
+
+          <button
+            type="button"
+            onClick={toggleTheme}
+            className="grid h-10 w-10 place-items-center rounded-full border border-[color:var(--line)] bg-white/[0.025] text-muted transition-colors duration-200 hover:border-[color:var(--line-strong)] hover:text-ivory"
+            aria-label="Toggle theme"
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              <m.span
+                key={theme}
+                initial={{ opacity: 0, rotate: -35, scale: 0.75 }}
+                animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                exit={{ opacity: 0, rotate: 35, scale: 0.75 }}
+                transition={{ duration: 0.18 }}
+              >
+                {theme === "dark" ? (
+                  <Sun size={17} className="text-[color:var(--amber)]" />
+                ) : (
+                  <Moon size={17} className="text-[color:var(--teal)]" />
+                )}
+              </m.span>
+            </AnimatePresence>
+          </button>
+
+          <div className="hidden h-10 items-center gap-2 rounded-full border border-[color:var(--line)] bg-white/[0.025] px-4 text-[12px] font-bold uppercase text-[color:var(--teal)] lg:flex">
+            <span className="h-2 w-2 rounded-full bg-[color:var(--teal)] shadow-[0_0_18px_var(--teal)]" />
+            {t("nav.available")}
+          </div>
         </div>
 
-        {/* Theme toggle */}
-        <m.button
-          onClick={toggleTheme}
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.92, rotate: 180 }}
-          transition={{ duration: 0.3, ease }}
-          className="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.08] ml-1 hover:bg-white/[0.08] transition-colors"
-        >
-          <AnimatePresence mode="wait">
-            <m.div
-              key={theme}
-              initial={{ scale: 0, rotate: -90, opacity: 0 }}
-              animate={{ scale: 1, rotate: 0, opacity: 1 }}
-              exit={{ scale: 0, rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              {theme === "dark" ? (
-                <Sun size={14} className="text-amber-400" />
-              ) : (
-                <Moon size={14} className="text-indigo-500" />
-              )}
-            </m.div>
-          </AnimatePresence>
-        </m.button>
-
-        {/* Available badge */}
-        <div className="hidden lg:flex items-center ml-1 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[11px] font-semibold tracking-wider uppercase">
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mr-2 animate-pulse" />
-          {t("nav.available")}
-        </div>
-
-        {/* Mobile toggle */}
         <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden flex items-center justify-center w-9 h-9 rounded-full bg-white/5 ml-1"
+          type="button"
+          onClick={() => setMobileOpen((value) => !value)}
+          className="ml-auto grid h-10 w-10 place-items-center rounded-full border border-[color:var(--line)] bg-white/[0.035] md:hidden"
+          aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
         >
-          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+          {mobileOpen ? <X size={19} /> : <Menu size={19} />}
         </button>
+        <m.span
+          className="absolute bottom-0 left-6 right-6 h-px origin-left bg-[linear-gradient(90deg,transparent,var(--teal),var(--amber),transparent)]"
+          style={{ scaleX: progress }}
+        />
       </m.nav>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <m.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease }}
-            className="fixed top-20 left-4 right-4 z-50 p-4 rounded-2xl border border-white/10 bg-[#0c1017]/95 backdrop-blur-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] md:hidden"
+            initial={{ opacity: 0, y: -12, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.98 }}
+            transition={{ duration: 0.24, ease }}
+            className="matte-panel fixed left-3 right-3 top-20 z-50 p-3 md:hidden"
           >
-            <div className="flex flex-col gap-1">
+            <div className="panel-inner space-y-1">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className={`px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                  className={`block rounded-[8px] px-4 py-3 text-sm font-bold ${
                     active === link.href
-                      ? "bg-white/[0.06]"
-                      : "text-slate-400 hover:bg-white/[0.03]"
+                      ? "bg-[color:var(--teal-soft)] text-ivory"
+                      : "text-muted"
                   }`}
                 >
                   {link.label}
                 </a>
               ))}
-              {/* Mobile controls */}
-              <div className="flex items-center gap-3 mt-3 pt-3 border-t border-white/[0.06] px-4">
-                <div className="flex items-center p-0.5 rounded-full bg-white/[0.04] border border-white/[0.08]">
-                  {(["en", "ru"] as const).map((l) => (
-                    <button
-                      key={l}
-                      onClick={() => setLang(l)}
-                      className={`px-3 py-1.5 rounded-full text-[11px] font-bold tracking-wider uppercase transition-colors ${
-                        lang === l
-                          ? "bg-gradient-to-r from-[#a36cff]/25 to-[#41caff]/25 border border-white/15"
-                          : "text-slate-500"
-                      }`}
-                    >
-                      {l.toUpperCase()}
-                    </button>
-                  ))}
-                </div>
+              <div className="flex items-center gap-3 border-t border-[color:var(--line)] px-4 pt-3">
+                {(["en", "ru"] as const).map((l) => (
+                  <button
+                    key={l}
+                    type="button"
+                    onClick={() => setLang(l)}
+                    className={`rounded-full border px-3 py-1.5 text-xs font-bold uppercase ${
+                      lang === l
+                        ? "border-[color:var(--teal)] bg-[color:var(--teal-soft)]"
+                        : "border-[color:var(--line)] text-subtle"
+                    }`}
+                  >
+                    {l.toUpperCase()}
+                  </button>
+                ))}
                 <button
+                  type="button"
                   onClick={toggleTheme}
-                  className="flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.04] border border-white/[0.08]"
+                  className="ml-auto grid h-9 w-9 place-items-center rounded-full border border-[color:var(--line)]"
+                  aria-label="Toggle theme"
                 >
-                  {theme === "dark" ? (
-                    <Sun size={16} className="text-amber-400" />
-                  ) : (
-                    <Moon size={16} className="text-indigo-500" />
-                  )}
+                  {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
                 </button>
               </div>
             </div>
