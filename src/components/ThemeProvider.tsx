@@ -37,6 +37,17 @@ export default function ThemeProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("resume-theme", theme);
   }, [theme]);
 
+  // Mirror prefers-reduced-motion onto <html data-reduce-motion> so CSS rules
+  // can target users with motion sensitivity even on Framer Motion / inline animations.
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const apply = () =>
+      document.documentElement.setAttribute("data-reduce-motion", mq.matches ? "true" : "false");
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
   const toggleTheme = () =>
     setTheme((t) => (t === "dark" ? "light" : "dark"));
 
