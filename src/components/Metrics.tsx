@@ -90,8 +90,15 @@ export default function Metrics() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.54, delay: index * 0.07, ease }}
-              className="matte-panel p-6 transition-transform duration-200 hover:-translate-y-1"
+              whileHover={{
+                y: -14,
+                rotateX: -6,
+                rotateY: index % 2 === 0 ? 6 : -6,
+                scale: 1.025,
+              }}
+              className="matte-panel kinetic-panel stat-card element-3d-card section-3d-card p-6 transition-transform duration-200"
             >
+              <span className="depth-plane section-depth-plane" />
               <div className="panel-inner">
                 <div className="mb-8 flex items-center justify-between">
                   <div className="grid h-11 w-11 place-items-center rounded-[8px] border border-[color:var(--line)] bg-white/[0.025] text-[color:var(--teal)]">

@@ -76,11 +76,13 @@ export default function Experience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.58, delay: index * 0.08, ease }}
-              className="matte-panel overflow-hidden"
+              whileHover={{ y: -12, rotateX: -3, rotateY: index === 0 ? 2.5 : -2.5, scale: 1.012 }}
+              className="matte-panel kinetic-panel element-3d-card section-3d-card overflow-hidden"
             >
+              <span className="depth-plane section-depth-plane" />
               <div className="panel-inner grid lg:grid-cols-[270px_1fr]">
                 <div className="border-b border-[color:var(--line)] p-6 lg:border-b-0 lg:border-r lg:p-8">
-                  <span className="grid h-14 w-14 place-items-center rounded-[8px] border border-[color:var(--amber)] text-lg font-black text-[color:var(--amber)]">
+                  <span className="number-badge grid h-14 w-14 place-items-center rounded-[8px] border border-[color:var(--amber)] text-lg font-black text-[color:var(--amber)]">
                     {job.accent}
                   </span>
                   <h3 className="mt-7 text-2xl font-black leading-tight text-ivory">
@@ -106,7 +108,7 @@ export default function Experience() {
                   {job.bulletKeys.map((key) => (
                     <div
                       key={key}
-                      className="group flex items-start gap-3 border-t border-[color:var(--line)] pt-4"
+                      className="group bullet-row flex items-start gap-3 border-t border-[color:var(--line)] pt-4"
                     >
                       <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--teal)] transition-transform duration-200 group-hover:scale-150" />
                       <p className="text-sm leading-7 text-muted">{t(key)}</p>

@@ -10,6 +10,11 @@ export default function VideoBackground() {
       aria-hidden="true"
       className="ambient-field"
       data-ambient-theme={theme}
-    />
+    >
+      <span className="kinetic-ribbon kinetic-ribbon-a" />
+      <span className="kinetic-ribbon kinetic-ribbon-b" />
+      <span className="kinetic-ribbon kinetic-ribbon-c" />
+      <span className="ambient-vignette" />
+    </div>
   );
 }

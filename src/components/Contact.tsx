@@ -17,8 +17,10 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-120px" }}
           transition={{ duration: 0.62, ease }}
-          className="matte-panel overflow-hidden"
+          whileHover={{ y: -12, rotateX: -3, rotateY: 2, scale: 1.01 }}
+          className="matte-panel kinetic-panel element-3d-card section-3d-card overflow-hidden"
         >
+          <span className="depth-plane section-depth-plane" />
           <div className="panel-inner grid lg:grid-cols-[1.1fr_0.9fr]">
             <div className="border-b border-[color:var(--line)] p-7 sm:p-10 lg:border-b-0 lg:border-r">
               <p className="eyebrow">{t("contact.label")}</p>
@@ -34,7 +36,7 @@ export default function Contact() {
                   href="https://t.me/cassedygarcia"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="primary-action"
+                  className="primary-action motion-button"
                 >
                   <Send size={18} />
                   {t("contact.me")}
@@ -43,7 +45,7 @@ export default function Contact() {
                   href="https://drive.google.com/file/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ/view"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="secondary-action"
+                  className="secondary-action motion-button"
                 >
                   <FileDown size={18} />
                   {t("contact.resume")}
@@ -56,7 +58,7 @@ export default function Contact() {
                 href="https://t.me/cassedygarcia"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group rounded-[8px] border border-[color:var(--line)] bg-white/[0.025] p-5 transition-colors duration-200 hover:border-[color:var(--teal)]"
+                className="contact-link group rounded-[8px] border border-[color:var(--line)] bg-white/[0.025] p-5 transition-colors duration-200 hover:border-[color:var(--teal)]"
               >
                 <div className="flex items-center gap-4">
                   <div className="grid h-12 w-12 place-items-center rounded-[8px] border border-[color:var(--line)] bg-[color:var(--teal-soft)] text-[color:var(--teal)]">
@@ -77,7 +79,7 @@ export default function Contact() {
 
               <a
                 href="mailto:samir.renchirovsky@email.com"
-                className="group rounded-[8px] border border-[color:var(--line)] bg-white/[0.025] p-5 transition-colors duration-200 hover:border-[color:var(--amber)]"
+                className="contact-link group rounded-[8px] border border-[color:var(--line)] bg-white/[0.025] p-5 transition-colors duration-200 hover:border-[color:var(--amber)]"
               >
                 <div className="flex items-center gap-4">
                   <div className="grid h-12 w-12 place-items-center rounded-[8px] border border-[color:var(--line)] bg-[color:var(--amber-soft)] text-[color:var(--amber)]">

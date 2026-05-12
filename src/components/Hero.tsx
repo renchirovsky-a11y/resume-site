@@ -1,6 +1,11 @@
 "use client";
 
-import { m } from "framer-motion";
+import type { PointerEvent } from "react";
+import {
+  m,
+  useMotionTemplate,
+  useMotionValue,
+} from "framer-motion";
 import {
   Activity,
   ArrowDownRight,
@@ -14,6 +19,7 @@ import {
   Users,
   Wallet,
 } from "lucide-react";
+import KineticScene3D from "./KineticScene3D";
 import { useLang } from "./LangProvider";
 
 const ease = [0.22, 1, 0.36, 1] as const;
@@ -25,8 +31,22 @@ const badgeDefs = [
   { label: "Leadership", icon: Users },
 ];
 
+const deckSlots = ["a", "b", "c"] as const;
+
 export default function Hero() {
   const { lang, t } = useLang();
+  const pointerX = useMotionValue(680);
+  const pointerY = useMotionValue(420);
+  const spotlight = useMotionTemplate`radial-gradient(520px circle at ${pointerX}px ${pointerY}px, rgba(74, 215, 200, 0.13), transparent 62%)`;
+
+  const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+
+    pointerX.set(x);
+    pointerY.set(y);
+  };
 
   const stats = [
     { value: "90K+", label: t("hero.links"), icon: Link2 },
@@ -50,9 +70,14 @@ export default function Hero() {
   ];
 
   return (
-    <section className="relative flex min-h-screen items-center px-4 pb-16 pt-32 sm:px-6 lg:pt-28">
+    <section
+      className="relative flex min-h-screen items-center overflow-hidden px-4 pb-16 pt-32 sm:px-6 lg:pt-28"
+      onPointerMove={handlePointerMove}
+    >
+      <m.div className="pointer-events-none absolute inset-0 z-0" style={{ background: spotlight }} />
+      <div className="hero-lattice pointer-events-none absolute inset-x-4 top-28 z-0 h-px" />
       <div className="mx-auto grid w-full max-w-[1280px] min-w-0 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.82fr)] xl:gap-14">
-        <div className="min-w-0">
+        <div className="relative z-10 min-w-0">
           <m.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -60,22 +85,42 @@ export default function Hero() {
             className="mb-8 flex flex-wrap gap-2.5"
           >
             {badgeDefs.map((badge) => (
-              <span key={badge.label} className="chip px-3.5">
+              <m.span
+                key={badge.label}
+                className="chip px-3.5"
+                whileHover={{ y: -3 }}
+                transition={{ type: "spring", stiffness: 360, damping: 24 }}
+              >
                 <badge.icon size={14} className="text-teal" />
                 {badge.label}
-              </span>
+              </m.span>
             ))}
           </m.div>
 
           <m.h1
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
+            whileHover={{ rotateX: 4, rotateY: -4, scale: 1.012 }}
             transition={{ duration: 0.72, delay: 0.08, ease }}
-            className="max-w-full text-[clamp(2.35rem,6.8vw,5.8rem)] font-black leading-[0.96] text-ivory"
+            style={{ transformPerspective: 1200 }}
+            className="hero-title max-w-full overflow-hidden text-[clamp(2.35rem,6.8vw,5.8rem)] font-black leading-[0.96] text-ivory"
           >
-            <span>{t("hero.firstname")}</span>
-            <br />
-            <span className="text-gold">{t("hero.lastname")}</span>
+            <m.span
+              className="hero-line block"
+              initial={{ y: "110%", rotateX: -50 }}
+              animate={{ y: 0, rotateX: 0 }}
+              transition={{ duration: 0.82, delay: 0.05, ease }}
+            >
+              {t("hero.firstname")}
+            </m.span>
+            <m.span
+              className="hero-line text-gold block"
+              initial={{ y: "110%", rotateX: -50 }}
+              animate={{ y: 0, rotateX: 0 }}
+              transition={{ duration: 0.9, delay: 0.18, ease }}
+            >
+              {t("hero.lastname")}
+            </m.span>
           </m.h1>
 
           <m.p
@@ -102,35 +147,74 @@ export default function Hero() {
             transition={{ duration: 0.62, delay: 0.36, ease }}
             className="mt-8 flex flex-wrap gap-4"
           >
-            <a
+            <m.a
               href="https://drive.google.com/file/d/1aBcDeFgHiJkLmNoPqRsTuVwXyZ/view"
               target="_blank"
               rel="noopener noreferrer"
-              className="primary-action"
+              className="primary-action motion-button"
+              whileHover={{ y: -5, rotateX: -7, rotateY: 5 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 360, damping: 22 }}
             >
               <FileDown size={18} />
               {t("hero.download")}
-            </a>
-            <a
+            </m.a>
+            <m.a
               href="https://t.me/cassedygarcia"
               target="_blank"
               rel="noopener noreferrer"
-              className="secondary-action"
+              className="secondary-action motion-button"
+              whileHover={{ y: -5, rotateX: -7, rotateY: -5 }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 360, damping: 22 }}
             >
               <Send size={18} className="text-teal" />
               {t("hero.telegram")}
-            </a>
+            </m.a>
+          </m.div>
+
+          <m.div
+            aria-hidden="true"
+            initial={{ opacity: 0, y: 26, rotateX: 18 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 0.82, delay: 0.44, ease }}
+            className="hero-3d-deck"
+          >
+            <span className="deck-floor" />
+            <span className="deck-rail deck-rail-a" />
+            <span className="deck-rail deck-rail-b" />
+            <span className="deck-core" />
+            {stats.map((stat, index) => (
+              <span
+                key={stat.label}
+                className={`deck-tile deck-tile-${deckSlots[index]}`}
+              >
+                <span className="deck-icon">
+                  <stat.icon size={18} />
+                </span>
+                <span className="deck-copy">
+                  <span className="deck-value">{stat.value}</span>
+                  <span className="deck-label">{stat.label}</span>
+                </span>
+              </span>
+            ))}
           </m.div>
 
           <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.48, ease }}
-            className="matte-panel mt-10 max-w-[680px]"
+            className="matte-panel kinetic-panel mt-10 max-w-[680px]"
           >
-            <div className="panel-inner grid metric-divider md:grid-cols-3">
+            <div className="panel-inner stats-3d-grid grid metric-divider md:grid-cols-3">
               {stats.map((stat, index) => (
-                <div key={stat.label} className="p-6 sm:p-7">
+                <m.div
+                  key={stat.label}
+                  className="stat-card element-3d-card p-6 sm:p-7"
+                  whileHover={{ y: -10, rotateX: -4, rotateY: index === 1 ? 0 : index === 0 ? 5 : -5 }}
+                  transition={{ type: "spring", stiffness: 330, damping: 25 }}
+                >
+                  <span className="depth-plane" />
                   <stat.icon size={22} className="mb-5 text-teal" />
                   <m.span
                     initial={{ opacity: 0, y: 8 }}
@@ -141,7 +225,7 @@ export default function Hero() {
                     {stat.value}
                   </m.span>
                   <span className="mt-2 block text-sm text-muted">{stat.label}</span>
-                </div>
+                </m.div>
               ))}
             </div>
           </m.div>
@@ -151,7 +235,8 @@ export default function Hero() {
           initial={{ opacity: 0, x: 36, scale: 0.98 }}
           animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ duration: 0.82, delay: 0.22, ease }}
-          className="matte-panel min-w-0 overflow-hidden lg:mt-16"
+          whileHover={{ y: -8, rotateX: -1.2, rotateY: -1.8, scale: 1.01 }}
+          className="matte-panel kinetic-panel profile-3d-shell min-w-0 overflow-hidden lg:mt-16"
         >
           <div className="panel-inner">
             <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[color:var(--line)] p-5 sm:p-6">
@@ -170,10 +255,12 @@ export default function Hero() {
 
             <div className="grid border-b border-[color:var(--line)] md:grid-cols-[0.9fr_1.1fr]">
               <div className="grid min-h-[250px] place-items-center border-b border-[color:var(--line)] p-6 md:border-b-0 md:border-r">
-                <div className="relative grid aspect-square w-[min(260px,70vw)] place-items-center rounded-full border border-[color:var(--amber)] bg-[radial-gradient(circle_at_50%_38%,rgba(216,168,95,0.12),transparent_54%),rgba(255,255,255,0.02)]">
-                  <div className="absolute inset-6 rounded-full border border-[color:var(--line)]" />
-                  <div className="absolute inset-10 rounded-full border border-[color:var(--line)] opacity-60" />
-                  <div className="text-center">
+                <div className="sr-orbit relative grid aspect-square w-[min(260px,70vw)] place-items-center rounded-full border border-[color:var(--amber)] bg-[radial-gradient(circle_at_50%_38%,rgba(216,168,95,0.12),transparent_54%),rgba(255,255,255,0.02)]">
+                  <KineticScene3D className="sr-medallion-canvas" />
+                  <div className="absolute inset-6 z-[2] rounded-full border border-[color:var(--line)]" />
+                  <div className="absolute inset-10 z-[2] rounded-full border border-[color:var(--line)] opacity-60" />
+                  <span className="orbit-runner" />
+                  <div className="sr-signature text-center">
                     <p className="font-serif text-[clamp(4rem,8vw,6.5rem)] leading-none text-ivory">
                       SR
                     </p>
@@ -196,7 +283,7 @@ export default function Hero() {
                 </p>
                 <a
                   href="#experience"
-                  className="mt-8 inline-flex min-h-11 items-center gap-3 rounded-[8px] border border-[color:var(--teal)] bg-[color:var(--teal-soft)] px-4 text-sm font-bold transition-transform duration-200 hover:-translate-y-0.5"
+                  className="profile-action-3d mt-8 inline-flex min-h-11 items-center gap-3 rounded-[8px] border border-[color:var(--teal)] bg-[color:var(--teal-soft)] px-4 text-sm font-bold transition-transform duration-200 hover:-translate-y-0.5"
                 >
                   {lang === "ru" ? "См. портфолио" : "View portfolio"}
                   <ExternalLink size={16} />
@@ -210,9 +297,15 @@ export default function Hero() {
               </p>
               <div className="mt-5 space-y-5">
                 {campaigns.map((campaign, index) => (
-                  <div key={campaign.name} className="grid grid-cols-[18px_1fr] gap-4">
+                  <m.div
+                    key={campaign.name}
+                    className="campaign-row grid grid-cols-[18px_1fr] gap-4"
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.52, delay: 0.9 + index * 0.12, ease }}
+                  >
                     <div className="relative flex justify-center">
-                      <span className="mt-1 h-3 w-3 rounded-full bg-[color:var(--teal)] shadow-[0_0_18px_rgba(74,215,200,0.65)]" />
+                      <span className="timeline-node mt-1 h-3 w-3 rounded-full bg-[color:var(--teal)] shadow-[0_0_18px_rgba(74,215,200,0.65)]" />
                       {index < campaigns.length - 1 && (
                         <span className="absolute bottom-[-24px] top-5 w-px bg-[color:var(--line)]" />
                       )}
@@ -228,7 +321,7 @@ export default function Hero() {
                       </div>
                       <p className="text-sm text-subtle sm:text-right">{campaign.period}</p>
                     </div>
-                  </div>
+                  </m.div>
                 ))}
               </div>
             </div>
@@ -271,6 +364,15 @@ export default function Hero() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     className="sparkline-path"
+                  />
+                  <path
+                    d="M0 128 L22 122 L42 114 L63 116 L84 104 L104 98 L126 91 L146 92 L168 79 L188 76 L208 66 L229 70 L248 54 L270 58 L292 42 L316 37 L338 24"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.72)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="sparkline-runner"
                   />
                   <path
                     d="M0 128 L22 122 L42 114 L63 116 L84 104 L104 98 L126 91 L146 92 L168 79 L188 76 L208 66 L229 70 L248 54 L270 58 L292 42 L316 37 L338 24 L338 144 L0 144 Z"

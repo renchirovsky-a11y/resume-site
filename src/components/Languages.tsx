@@ -35,8 +35,10 @@ export default function Languages() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-120px" }}
           transition={{ duration: 0.62, delay: 0.08, ease }}
-          className="matte-panel p-6 sm:p-8"
+          whileHover={{ y: -12, rotateX: -5, rotateY: -5, scale: 1.018 }}
+          className="matte-panel kinetic-panel element-3d-card section-3d-card p-6 sm:p-8"
         >
+          <span className="depth-plane section-depth-plane" />
           <div className="panel-inner">
             <div className="mb-8 flex items-center gap-3">
               <div className="grid h-11 w-11 place-items-center rounded-[8px] border border-[color:var(--line)] bg-[color:var(--teal-soft)] text-[color:var(--teal)]">
@@ -71,7 +73,7 @@ export default function Languages() {
                       whileInView={{ width: `${item.percent}%` }}
                       viewport={{ once: true }}
                       transition={{ duration: 1, delay: 0.2 + index * 0.1, ease }}
-                      className="h-full rounded-full bg-[linear-gradient(90deg,var(--teal),var(--amber))]"
+                      className="progress-beam h-full rounded-full bg-[linear-gradient(90deg,var(--teal),var(--amber))]"
                     />
                   </div>
                 </m.div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, m } from "framer-motion";
+import { AnimatePresence, m, useScroll, useSpring } from "framer-motion";
 import { Menu, Moon, Sun, X } from "lucide-react";
 import { useLang } from "./LangProvider";
 import { useTheme } from "./ThemeProvider";
@@ -11,6 +11,12 @@ const ease = [0.22, 1, 0.36, 1] as const;
 export default function Navbar() {
   const { lang, setLang, t } = useLang();
   const { theme, toggleTheme } = useTheme();
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 140,
+    damping: 28,
+    mass: 0.35,
+  });
   const [active, setActive] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -64,7 +70,7 @@ export default function Navbar() {
       >
         <a
           href="#"
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[color:var(--teal)] bg-[rgba(74,215,200,0.06)] text-[15px] font-black text-ivory shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]"
+          className="nav-mark grid h-11 w-11 shrink-0 place-items-center rounded-full border border-[color:var(--teal)] bg-[rgba(74,215,200,0.06)] text-[15px] font-black text-ivory shadow-[inset_0_0_0_1px_rgba(255,255,255,0.04)]"
           aria-label="Samir Renchirovsky home"
         >
           SR
@@ -155,6 +161,10 @@ export default function Navbar() {
         >
           {mobileOpen ? <X size={19} /> : <Menu size={19} />}
         </button>
+        <m.span
+          className="absolute bottom-0 left-6 right-6 h-px origin-left bg-[linear-gradient(90deg,transparent,var(--teal),var(--amber),transparent)]"
+          style={{ scaleX: progress }}
+        />
       </m.nav>
 
       <AnimatePresence>

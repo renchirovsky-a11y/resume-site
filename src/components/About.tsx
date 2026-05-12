@@ -52,11 +52,13 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.48, delay: index * 0.06, ease }}
-                className="matte-panel min-h-[180px] p-6"
+                whileHover={{ y: -12, rotateX: -7, rotateY: index % 2 === 0 ? 7 : -7, scale: 1.025 }}
+                className="matte-panel kinetic-panel element-3d-card section-3d-card min-h-[180px] p-6"
               >
+                <span className="depth-plane section-depth-plane" />
                 <div className="panel-inner flex h-full flex-col justify-between">
                   <div className="flex items-center justify-between">
-                    <div className="grid h-11 w-11 place-items-center rounded-[8px] border border-[color:var(--line)] bg-[color:var(--teal-soft)] text-[color:var(--teal)]">
+                    <div className="icon-kicker grid h-11 w-11 place-items-center rounded-[8px] border border-[color:var(--line)] bg-[color:var(--teal-soft)] text-[color:var(--teal)]">
                       <item.icon size={20} />
                     </div>
                     <span className="text-xs font-black uppercase tracking-[0.16em] text-subtle">

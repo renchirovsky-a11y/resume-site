@@ -87,12 +87,14 @@ export default function Skills() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.56, delay: index * 0.08, ease }}
-                className="matte-panel p-6 lg:p-7"
+                whileHover={{ y: -12, rotateX: -6, rotateY: index === 1 ? 0 : index === 0 ? 7 : -7, scale: 1.02 }}
+                className="matte-panel kinetic-panel element-3d-card section-3d-card p-6 lg:p-7"
               >
+                <span className="depth-plane section-depth-plane" />
                 <div className="panel-inner">
                   <div className="mb-8 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="grid h-12 w-12 place-items-center rounded-[8px] border border-[color:var(--line)] bg-[color:var(--teal-soft)] text-[color:var(--teal)]">
+                      <div className="icon-kicker grid h-12 w-12 place-items-center rounded-[8px] border border-[color:var(--line)] bg-[color:var(--teal-soft)] text-[color:var(--teal)]">
                         <category.icon size={21} />
                       </div>
                       <h3 className="text-xl font-black text-ivory">
@@ -108,7 +110,7 @@ export default function Skills() {
                     {skills.map((skill, skillIndex) => (
                       <span
                         key={`${skill}-${skillIndex}`}
-                        className="rounded-full border border-[color:var(--line)] bg-white/[0.025] px-3 py-2 text-sm font-semibold text-muted transition-colors duration-200 hover:border-[color:var(--teal)] hover:text-ivory"
+                        className="skill-pill rounded-full border border-[color:var(--line)] bg-white/[0.025] px-3 py-2 text-sm font-semibold text-muted transition-colors duration-200 hover:border-[color:var(--teal)] hover:text-ivory"
                       >
                         {skill}
                       </span>
